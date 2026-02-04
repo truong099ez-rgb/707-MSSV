@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài tập 3 - Countdown</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        #timer { font-size: 5rem; font-weight: bold; text-align: center; margin: 2rem 0; color: #2c3e50; }
+        .warning { color: #e74c3c !important; animation: blink 1s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Đồng hồ đếm ngược</h2>
+        <div id="timer">10:00</div>
+        
+        <div style="background: #fff3cd; padding: 1rem; border-left: 5px solid #ffc107;">
+            <strong>Logic tư duy:</strong> Sử dụng <code>setInterval</code> để cập nhật mỗi 1000ms. Khi hết giờ, gọi <code>clearInterval</code> để giải phóng bộ nhớ (tránh memory leak). Nếu deploy thực tế, nên dùng thời gian từ Server để tránh người dùng chỉnh sửa giờ máy tính.
+        </div>
+    </div>
+
+    <script>
+        let duration = 600; // 10 phút = 600 giây
+        const display = document.getElementById('timer');
+
+        const countdown = setInterval(() => {
+            let minutes = Math.floor(duration / 60);
+            let seconds = duration % 60;
+
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            display.textContent = `${minutes}:${seconds}`;
+
+            if (duration < 60) display.classList.add('warning');
+
+            if (--duration < 0) {
+                clearInterval(countdown);
+                display.textContent = "00:00";
+                alert("Hết thời gian làm bài!");
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

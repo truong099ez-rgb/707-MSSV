@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài tập 1 - Sản phẩm</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        #searchInput { width: 100%; padding: 12px; margin-bottom: 20px; border: 2px solid #ddd; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul><li><a href="index.html">← Quay lại</a></li></ul>
+    </nav>
+    <div class="container">
+        <h2>Danh sách sản phẩm</h2>
+        <input type="text" id="searchInput" placeholder="Nhập tên sản phẩm để tìm kiếm...">
+        <div id="productGrid" class="grid"></div>
+        <p id="errorMsg" class="error" style="display: none;">Rất tiếc! Không tìm thấy sản phẩm này.</p>
+        
+        <div style="margin-top: 2rem; background: #eee; padding: 1rem;">
+            <strong>Giải thích logic:</strong> Sử dụng <code>filter()</code> để lọc mảng dựa trên <code>toLowerCase()</code> giúp tìm kiếm không phân biệt hoa thường. <code>trim()</code> input để loại bỏ khoảng trắng dư thừa, ngăn chặn tìm kiếm rỗng.
+        </div>
+    </div>
+
+    <script>
+        const products = [
+            { name: "iPhone 15 Pro", price: "28.000.000đ" },
+            { name: "Samsung Galaxy S24", price: "22.000.000đ" },
+            { name: "MacBook Air M3", price: "32.000.000đ" },
+            { name: "Sony WH-1000XM5", price: "7.500.000đ" },
+            { name: "iPad Pro M2", price: "24.000.000đ" }
+        ];
+
+        function render(data) {
+            const grid = document.getElementById('productGrid');
+            const error = document.getElementById('errorMsg');
+            grid.innerHTML = data.map(item => `
+                <div class="card">
+                    <h3>${item.name}</h3>
+                    <p style="color: #e67e22; font-weight: bold;">${item.price}</p>
+                </div>
+            `).join('');
+            error.style.display = data.length === 0 ? 'block' : 'none';
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase().trim();
+            const filtered = products.filter(p => p.name.toLowerCase().includes(term));
+            render(filtered);
+        });
+
+        render(products); // Khởi tạo
+    </script>
+</body>
+</html>
